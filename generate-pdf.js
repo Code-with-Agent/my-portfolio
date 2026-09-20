@@ -1,0 +1,115 @@
+const fs = require("fs");
+const path = require("path");
+
+function createPDF() {
+  const content = 
+`BT
+/F1 18 Tf
+50 740 Td
+(Alexandre Sterling - SAPUI5 & SAP Fiori Developer) Tj
+/F1 9 Tf
+0 -20 Td
+(Munich / Frankfurt, Germany | Email: alexandre.sterling.sap@gmail.com | LinkedIn: linkedin.com/in/sap-fiori-expert) Tj
+0 -15 Td
+(Core Competencies: SAPUI5, SAP Fiori Elements, SAP CAP, ABAP RAP, Clean Core S/4HANA & SAP BTP) Tj
+0 -25 Td
+/F1 12 Tf
+(PROFESSIONAL SUMMARY) Tj
+/F1 9 Tf
+0 -16 Td
+(Senior SAP Frontend & Full-Stack Developer with 7+ years of experience delivering mission-critical enterprise solutions.) Tj
+0 -13 Td
+(Specializing in SAPUI5 custom applications, Fiori Elements, ABAP RAP, and SAP CAP on SAP BTP Cloud Foundry.) Tj
+0 -22 Td
+/F1 12 Tf
+(ENTERPRISE PROFESSIONAL EXPERIENCE) Tj
+/F1 9 Tf
+0 -16 Td
+(Lead SAP Fiori & BTP Solutions Architect - AeroTech Global Logistics (2022 - Present)) Tj
+0 -13 Td
+(- Directed frontend architecture across 14 international airport distribution hubs on S/4HANA 2022.) Tj
+0 -13 Td
+(- Built touch-first offline ramp app on Zebra rugged handhelds, reducing freight loading times by 42%.) Tj
+0 -13 Td
+(- Migrated 18 legacy SAP GUI / Web Dynpro transactions into unified Fiori Launchpad spaces.) Tj
+0 -18 Td
+(Senior SAPUI5 & Fiori Developer - Apex Industrial Solutions (2019 - 2021)) Tj
+0 -13 Td
+(- Developed shop-floor custom SAPUI5 applications with direct integration to SAP PP and QM modules.) Tj
+0 -13 Td
+(- Cut defect logging duration from 6.5 minutes to 45 seconds through streamlined single-screen UI design.) Tj
+0 -13 Td
+(- Created company-wide reusable SAPUI5 UI library, reducing subsequent project timelines by 35%.) Tj
+0 -22 Td
+/F1 12 Tf
+(OFFICIAL SAP CERTIFICATIONS) Tj
+/F1 9 Tf
+0 -16 Td
+(- SAP Certified Development Associate - SAP Fiori Application Developer (C_FIORDEV_22)) Tj
+0 -13 Td
+(- SAP Certified Development Specialist - ABAP for SAP HANA 2.0 (E_HANAAW_18)) Tj
+0 -13 Td
+(- SAP Certified Citizen Developer Associate - SAP Build (C_BUILD_01)) Tj
+0 -13 Td
+(- SAP Certified Associate - Back-End Developer ABAP Cloud (C_ABAPD_2309)) Tj
+0 -22 Td
+/F1 12 Tf
+(ACADEMIC EDUCATION) Tj
+/F1 9 Tf
+0 -16 Td
+(Technical University of Munich (TUM) - B.Sc. in Computer Science & Information Systems (2013 - 2017)) Tj
+0 -13 Td
+(- Graduated with High Honors (1.3 German Scale / Top 5% of class). Thesis on Declarative ERP Metadata UIs.) Tj
+0 -25 Td
+/F1 8 Tf
+(For live interactive enterprise case studies and code samples, visit the online portfolio.) Tj
+ET`;
+
+  const streamLength = Buffer.byteLength(content, "utf8");
+
+  const pdf = 
+`%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length ${streamLength} >>
+stream
+${content}
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000244 00000 n 
+0000000305 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+385
+%%EOF
+`;
+
+  const publicDir = path.join(__dirname, "public");
+  if (!fs.existsSync(publicDir)) {
+    fs.mkdirSync(publicDir, { recursive: true });
+  }
+
+  const targetPath = path.join(publicDir, "resume.pdf");
+  fs.writeFileSync(targetPath, pdf);
+  console.log("Created valid resume.pdf at:", targetPath, "Size:", fs.statSync(targetPath).size);
+}
+
+createPDF();
