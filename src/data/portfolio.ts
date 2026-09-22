@@ -3,8 +3,8 @@ import { projectsData } from "./projects";
 
 export const portfolioData: PortfolioData = {
   personal: {
-    name: "Alexandre Sterling",
-    monogram: "AS",
+    name: "Mohd Moin Khan",
+    monogram: "MK",
     title: "SAPUI5 & SAP Fiori Developer",
     eyebrow: "SAPUI5 • SAP Fiori • CAP • RAP",
     tagline:
@@ -13,7 +13,7 @@ export const portfolioData: PortfolioData = {
     aboutHeadline:
       "Architecting Mission-Critical Enterprise Software Across the SAP S/4HANA & BTP Ecosystem",
     shortBio:
-      "Senior SAP Frontend & Full-Stack Developer with 7+ years of experience architecting human-centric enterprise solutions. Specializing in SAPUI5 custom applications, SAP Fiori Elements (v2/v4), ABAP RESTful Application Programming Model (RAP), and SAP Cloud Application Programming Model (CAP). Proven track record delivering Clean Core compliant solutions across Fortune 500 supply chain, finance, and procurement systems.",
+      "Senior SAP Frontend & Full-Stack Developer with 8+ years of experience architecting human-centric enterprise solutions. Specializing in SAPUI5 custom applications, SAP Fiori Elements (v2/v4), ABAP RESTful Application Programming Model (RAP), and SAP Cloud Application Programming Model (CAP). Proven track record delivering Clean Core compliant solutions across Fortune 500 supply chain, finance, and procurement systems.",
     fullBio: [
       "I bridge the gap between heavy enterprise ERP backends and modern, frictionless user interfaces. With over 7 years dedicated strictly to the SAP ecosystem, I lead front-end modernization programs migrating legacy SAP GUI and Web Dynpro transactions to accessible, responsive SAP Fiori applications.",
       "My engineering philosophy centers on Clean Core principles and the modern SAP Fiori Horizon design standard. I craft both rapid Fiori Elements solutions using rich CDS annotations and highly tailored custom SAPUI5 components for demanding industrial and warehouse environments.",
@@ -22,7 +22,7 @@ export const portfolioData: PortfolioData = {
     infoCards: {
       experience: {
         label: "Experience",
-        value: "7+ Years",
+        value: "8+ Years",
         subtext: "Enterprise SAP S/4HANA & ECC Modernization",
       },
       specialization: {
@@ -55,8 +55,8 @@ export const portfolioData: PortfolioData = {
       github: "https://github.com/sap-fiori-solutions",
       email: "alexandre.sterling.sap@enterprise-portfolio.dev",
     },
-    resumeDownloadUrl: "/resume.pdf",
-    resumePdfFileName: "Alexandre_Sterling_SAP_Developer_Resume.pdf",
+    resumeDownloadUrl: "/Moin_Khan_Resume_2026.docx",
+    resumePdfFileName: "Moin_Khan_Resume_2026.docx",
     stats: [
       {
         value: "7+ Years",

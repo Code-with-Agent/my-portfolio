@@ -54,9 +54,11 @@ export interface PersonalInfo {
   systemsIntegrated: string;
   userSatisfaction: string;
   contactEmail: string;
+  phone?: string;
   socials: SocialLinks;
   resumeDownloadUrl: string;
   resumePdfFileName?: string;
+  resumePdfUrl?: string;
   stats: MetricStat[];
   corePillars: {
     title: string;

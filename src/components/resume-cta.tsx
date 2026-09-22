@@ -56,8 +56,8 @@ export function ResumeCta() {
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2 relative z-10">
             {/* 1. Download Resume: Downloads /resume.pdf dynamically from configured portfolio data */}
             <a
-              href={personal.resumeDownloadUrl || "/resume.pdf"}
-              download={personal.resumePdfFileName || `${personal.name.replace(/\s+/g, '_')}_Resume.pdf`}
+              href={personal.resumeDownloadUrl || "/Moin_Khan_Resume_2026.docx"}
+              download={personal.resumePdfFileName || "Moin_Khan_Resume_2026.docx"}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block"

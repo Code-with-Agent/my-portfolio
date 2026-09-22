@@ -166,8 +166,8 @@ export function Navigation() {
             </a>
 
             <a
-              href={portfolioData.personal.resumeDownloadUrl || "/resume.pdf"}
-              download={portfolioData.personal.resumePdfFileName || `${portfolioData.personal.name.replace(/\s+/g, '_')}_Resume.pdf`}
+              href={portfolioData.personal.resumeDownloadUrl || "/Moin_Khan_Resume_2026.docx"}
+              download={portfolioData.personal.resumePdfFileName || "Moin_Khan_Resume_2026.docx"}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-xs font-semibold px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#0a6ed1] to-[#0070f2] hover:from-[#0070f2] hover:to-[#3884ff] text-white shadow-md shadow-[#0a6ed1]/25 hover:shadow-[#0a6ed1]/40 border border-[#3884ff]/40 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3884ff]"
@@ -180,8 +180,8 @@ export function Navigation() {
           {/* Mobile Navigation Toggle Button */}
           <div className="flex lg:hidden items-center gap-2">
             <a
-              href={portfolioData.personal.resumeDownloadUrl || "/resume.pdf"}
-              download={portfolioData.personal.resumePdfFileName || `${portfolioData.personal.name.replace(/\s+/g, '_')}_Resume.pdf`}
+              href={portfolioData.personal.resumeDownloadUrl || "/Moin_Khan_Resume_2026.docx"}
+              download={portfolioData.personal.resumePdfFileName || "Moin_Khan_Resume_2026.docx"}
               className="p-2.5 rounded-xl bg-[#0a6ed1] text-white text-xs font-medium flex items-center gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3884ff]"
               aria-label="Download Resume"
             >
@@ -251,8 +251,8 @@ export function Navigation() {
               </a>
 
               <a
-                href={portfolioData.personal.resumeDownloadUrl || "/resume.pdf"}
-                download={portfolioData.personal.resumePdfFileName || `${portfolioData.personal.name.replace(/\s+/g, '_')}_Resume.pdf`}
+                href={portfolioData.personal.resumeDownloadUrl || "/Moin_Khan_Resume_2026.docx"}
+                download={portfolioData.personal.resumePdfFileName || "Moin_Khan_Resume_2026.docx"}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setMobileMenuOpen(false)}

@@ -130,8 +130,8 @@ export function Hero() {
 
               {/* Secondary CTA: Direct PDF Download */}
               <a
-                href={personal.resumeDownloadUrl || "/resume.pdf"}
-                download={personal.resumePdfFileName || `${personal.name.replace(/\s+/g, '_')}_Resume.pdf`}
+                href={personal.resumeDownloadUrl || "/Moin_Khan_Resume_2026.docx"}
+                download={personal.resumePdfFileName || "Moin_Khan_Resume_2026.docx"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto"

@@ -44,12 +44,12 @@ export default function ResumePage() {
             </a>
 
             <a
-              href={personal.resumeDownloadUrl || "/resume.pdf"}
-              download={personal.resumePdfFileName || "Alexandre_Sterling_Resume.pdf"}
+              href={personal.resumeDownloadUrl || "/Moin_Khan_Resume_2026.docx"}
+              download={personal.resumePdfFileName || "Moin_Khan_Resume_2026.docx"}
               className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#0f1624] text-xs font-semibold text-white hover:text-[#3884ff] border border-white/[0.08] hover:border-[#3884ff]/40 transition-colors"
             >
               <FileText className="w-3.5 h-3.5 text-[#3884ff]" />
-              <span>Download PDF</span>
+              <span>Download Resume (.docx)</span>
             </a>
 
             <button
