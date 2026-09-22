@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { portfolioData } from "@/data/portfolio";
 import { 
@@ -28,45 +29,104 @@ const NAV_LINKS = [
 ];
 
 export function Navigation() {
+  const pathname = usePathname();
+  const router = useRouter();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("");
 
-  // Scroll listener for sticky header styling
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const isManualScrollRef = useRef(false);
+  const manualScrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // IntersectionObserver for active section scroll-spy
-  useEffect(() => {
-    const sectionIds = NAV_LINKS.map((l) => l.id);
-    const elements = sectionIds
-      .map((id) => document.getElementById(id))
-      .filter((el): el is HTMLElement => el !== null);
+  // Determine active section based on scroll position
+  const determineActiveSection = useCallback(() => {
+    // If user clicked a tab recently, keep the active tab locked until scroll settles
+    if (isManualScrollRef.current) return;
+    if (pathname !== "/") {
+      setActiveSection("");
+      return;
+    }
 
-    if (elements.length === 0) return;
+    const scrollY = window.scrollY;
+    const viewportHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
-        });
-      },
-      {
-        rootMargin: "-25% 0px -55% 0px",
-        threshold: 0.1,
+    // 1. Bottom of page threshold: always highlight the last section ("contact")
+    if (scrollY + viewportHeight >= documentHeight - 80) {
+      setActiveSection("contact");
+      return;
+    }
+
+    // 2. Top of page threshold: Hero section (no section active)
+    if (scrollY < 120) {
+      setActiveSection("");
+      return;
+    }
+
+    // 3. Section detection point below sticky navbar (~72px header height + padding)
+    const detectionPoint = scrollY + 140;
+
+    let candidate = "";
+    for (const link of NAV_LINKS) {
+      const el = document.getElementById(link.id);
+      if (!el) continue;
+
+      const rect = el.getBoundingClientRect();
+      const elementTop = rect.top + scrollY;
+
+      if (elementTop <= detectionPoint) {
+        candidate = link.id;
       }
-    );
+    }
 
-    elements.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
+    if (candidate) {
+      setActiveSection(candidate);
+    }
+  }, [pathname]);
+
+  // Main scroll and resize listener with requestAnimationFrame throttling
+  useEffect(() => {
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 20);
+          determineActiveSection();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    // Run once on mount to establish initial state
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll, { passive: true });
+
+    // Cancel manual scroll lock if user uses wheel or touch during animation
+    const unlockManualScroll = () => {
+      if (isManualScrollRef.current) {
+        isManualScrollRef.current = false;
+        if (manualScrollTimeoutRef.current) {
+          clearTimeout(manualScrollTimeoutRef.current);
+        }
+      }
+    };
+
+    window.addEventListener("wheel", unlockManualScroll, { passive: true });
+    window.addEventListener("touchmove", unlockManualScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+      window.removeEventListener("wheel", unlockManualScroll);
+      window.removeEventListener("touchmove", unlockManualScroll);
+      if (manualScrollTimeoutRef.current) {
+        clearTimeout(manualScrollTimeoutRef.current);
+      }
+    };
+  }, [determineActiveSection]);
 
   // Keyboard escape listener to close mobile menu
   useEffect(() => {
@@ -81,14 +141,48 @@ export function Navigation() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [mobileMenuOpen]);
 
+  // Handle clicking navigation links
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     setMobileMenuOpen(false);
+
     const targetId = href.replace("#", "");
+
+    // If on a subpage (e.g. /resume), navigate to home page with hash
+    if (pathname !== "/") {
+      router.push(`/${href}`);
+      return;
+    }
+
     const targetEl = document.getElementById(targetId);
     if (targetEl) {
-      targetEl.scrollIntoView({ behavior: "smooth" });
+      // 1. Immediately activate the clicked tab
       setActiveSection(targetId);
+
+      // 2. Lock scroll-spy from intermediate tab jumping during smooth scroll
+      isManualScrollRef.current = true;
+      if (manualScrollTimeoutRef.current) {
+        clearTimeout(manualScrollTimeoutRef.current);
+      }
+      manualScrollTimeoutRef.current = setTimeout(() => {
+        isManualScrollRef.current = false;
+        determineActiveSection();
+      }, 850);
+
+      // 3. Smoothly scroll to target section accounting for sticky navbar height
+      const headerOffset = 76;
+      const elementPosition = targetEl.getBoundingClientRect().top;
+      const targetScrollY = elementPosition + window.scrollY - headerOffset;
+
+      window.scrollTo({
+        top: Math.max(0, targetScrollY),
+        behavior: "smooth",
+      });
+
+      // 4. Update browser URL hash cleanly without causing page jumps
+      if (window.history.pushState) {
+        window.history.pushState(null, "", href);
+      }
     }
   };
 

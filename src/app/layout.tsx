@@ -140,7 +140,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className="dark scroll-smooth h-full">
+    <html lang="en" className="dark scroll-smooth h-full" data-scroll-behavior="smooth">
       <head>
         <script
           type="application/ld+json"
